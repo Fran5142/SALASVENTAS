@@ -5,19 +5,70 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SALAS VENTAS | Cuidado Personal Premium</title>
     <style>
-        /* PALETA VANGUARDISTA: "Soft Premium & Glass" */
+        /* =========================================
+           PALETA DE COLORES Y VARIABLES DINÁMICAS
+           ========================================= */
+        
+        /* MODO OSCURO (Ahora es el predeterminado) */
         :root {
-            --bg-page: #eef2f5;       
-            --bg-card: #ffffff;       
-            --brand-dark: #0a2444;    
-            --brand-light: #2b5b84;   
-            --brand-gradient: linear-gradient(135deg, #0a2444 0%, #3a7bd5 100%);
-            --text-main: #2c3e50;     
-            --text-muted: #7f8c8d;    
+            --bg-page: #080c16;       /* Fondo azul/negro súper profundo */
+            --bg-card: #131d30;       /* Tarjetas elegantes y oscuras */
+            --title-color: #ffffff;   /* Textos principales brillantes */
+            
+            /* AZUL CON MÁS EFECTO (Neón / Brillante) */
+            --brand-light: #00d2ff;   /* Azul cian neón */
+            --brand-gradient: linear-gradient(135deg, #0072ff 0%, #00d2ff 100%);
+            
+            --text-main: #e2e8f0;     
+            --text-muted: #94a3b8;    
+            
             --whatsapp: #25D366;
             --whatsapp-gradient: linear-gradient(135deg, #25D366 0%, #128C7E 100%);
+            
+            /* Efectos de resplandor (Glow) para el modo oscuro */
+            --shadow-soft: 0 15px 35px rgba(0, 0, 0, 0.4);
+            --shadow-hover: 0 20px 40px rgba(0, 210, 255, 0.15); /* Resplandor azulado en tarjetas */
+            --btn-shadow: 0 0 15px rgba(0, 210, 255, 0.4);       /* Botón resplandeciente */
+            --btn-shadow-hover: 0 0 25px rgba(0, 210, 255, 0.6);
+            
+            --overlay-color: rgba(8, 12, 22, 0.93);
+            --header-fade: rgba(8, 12, 22, 0.85);
+            --border-color: rgba(0, 210, 255, 0.15); /* Bordes sutiles con efecto luz */
+            --modal-overlay: rgba(0, 0, 0, 0.85);
+            --img-bg: radial-gradient(circle, #ffffff 0%, #e2e8f0 100%); 
+            --card-border: rgba(0, 210, 255, 0.25);
+            --btn-eliminar-bg: rgba(255, 77, 77, 0.15);
+            --datos-bg: linear-gradient(135deg, #131d30 0%, #080c16 100%);
+            --logo-aura: rgba(0, 210, 255, 0.25); /* Aura neón iluminando tu logo */
+        }
+
+        /* MODO CLARO (Activado por el botón) */
+        [data-theme="light"] {
+            --bg-page: #eef2f5;       
+            --bg-card: #ffffff;       
+            --title-color: #0a2444;    
+            
+            /* Azul clásico y formal para el modo de día */
+            --brand-light: #2b5b84;   
+            --brand-gradient: linear-gradient(135deg, #0a2444 0%, #3a7bd5 100%);
+            
+            --text-main: #2c3e50;     
+            --text-muted: #7f8c8d;    
+            
             --shadow-soft: 0 15px 35px rgba(10, 36, 68, 0.08);
             --shadow-hover: 0 25px 50px rgba(10, 36, 68, 0.15);
+            --btn-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            --btn-shadow-hover: 0 8px 25px rgba(0, 0, 0, 0.3);
+            
+            --overlay-color: rgba(238, 242, 245, 0.90);
+            --header-fade: rgba(238, 242, 245, 0.8);
+            --border-color: rgba(255, 255, 255, 0.8);
+            --modal-overlay: rgba(10, 36, 68, 0.5);
+            --img-bg: radial-gradient(circle, #ffffff 0%, #f8f9fa 100%);
+            --card-border: #ecf0f1;
+            --btn-eliminar-bg: #fff0f0;
+            --datos-bg: linear-gradient(135deg, #f8f9fa 0%, #eef2f5 100%);
+            --logo-aura: rgba(58,123,213,0.12);
         }
 
         body {
@@ -27,6 +78,7 @@
             background-color: var(--bg-page);
             color: var(--text-main);
             line-height: 1.6;
+            transition: background-color 0.4s ease, color 0.4s ease;
             
             /* CONFIGURACIÓN MARCA DE AGUA */
             background-image: url('tu-nueva-imagen.png'); 
@@ -42,18 +94,45 @@
             content: "";
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
-            background-color: rgba(238, 242, 245, 0.90); 
+            background-color: var(--overlay-color); 
             z-index: -1;
+            transition: background-color 0.4s ease;
         }
 
-        /* HEADER: Logo más arriba */
+        /* Botón Flotante para cambiar de tema (Día/Noche) */
+        .theme-toggle {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            color: var(--text-main);
+            font-size: 1.5rem;
+            padding: 8px 12px;
+            border-radius: 50%;
+            cursor: pointer;
+            box-shadow: var(--shadow-soft);
+            transition: all 0.3s ease;
+            z-index: 101;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .theme-toggle:hover {
+            transform: scale(1.1);
+            box-shadow: var(--btn-shadow);
+        }
+
+        /* HEADER */
         header {
-            background: linear-gradient(to bottom, #ffffff 0%, rgba(238, 242, 245, 0.8) 100%);
+            background: linear-gradient(to bottom, var(--bg-card) 0%, var(--header-fade) 100%);
             text-align: center;
             padding: 1.5rem 1rem 2rem; 
             position: relative; 
-            border-bottom: 1px solid rgba(255, 255, 255, 0.8);
-            box-shadow: 0 10px 30px rgba(10, 36, 68, 0.03);
+            border-bottom: 1px solid var(--border-color);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+            transition: background 0.4s ease, border-bottom 0.4s ease;
         }
 
         .logo-container {
@@ -66,17 +145,18 @@
             content: '';
             position: absolute;
             top: 50%; left: 50%; width: 140%; height: 140%;
-            background: radial-gradient(circle, rgba(58,123,213,0.12) 0%, rgba(255,255,255,0) 70%);
+            background: radial-gradient(circle, var(--logo-aura) 0%, rgba(255,255,255,0) 70%);
             transform: translate(-50%, -50%);
             z-index: -1;
             border-radius: 50%;
+            transition: background 0.4s ease;
         }
 
         .logo-container img {
             max-width: 380px; 
             width: 100%;
             height: auto;
-            filter: drop-shadow(0 10px 25px rgba(10, 36, 68, 0.15));
+            filter: drop-shadow(0 10px 25px rgba(0, 0, 0, 0.3));
             transition: transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
 
@@ -85,13 +165,15 @@
         }
 
         header h1 {
-            color: var(--brand-dark);
+            color: var(--title-color);
             font-size: 1.8rem;
             margin: 0;
             text-transform: uppercase;
             letter-spacing: 5px;
             font-weight: 800;
             opacity: 0.9;
+            transition: color 0.4s ease;
+            text-shadow: 0 0 10px var(--logo-aura); /* Efecto de luz sutil en el título */
         }
 
         .contenedor-principal {
@@ -104,13 +186,14 @@
         }
 
         .productos h2 {
-            color: var(--brand-dark);
+            color: var(--title-color);
             margin-top: 0;
             text-align: center;
             font-size: 2.2rem;
             margin-bottom: 3rem;
             font-weight: 800;
             letter-spacing: -0.5px;
+            transition: color 0.4s ease;
         }
 
         .grid {
@@ -126,22 +209,24 @@
             box-shadow: var(--shadow-soft);
             text-align: center;
             padding-bottom: 2rem;
-            border: 1px solid rgba(255,255,255,0.8);
-            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); 
+            border: 1px solid var(--border-color);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), background-color 0.4s ease; 
         }
 
         .card:hover {
             transform: translateY(-12px);
             box-shadow: var(--shadow-hover);
+            border-color: var(--brand-light); /* Borde se ilumina al pasar el dedo */
         }
 
         .img-container {
             width: 100%;
             height: 280px;
             overflow: hidden;
-            background: radial-gradient(circle, #ffffff 0%, #f8f9fa 100%);
+            background: var(--img-bg);
             padding: 20px;
             box-sizing: border-box;
+            transition: background 0.4s ease;
         }
 
         .producto-img {
@@ -163,8 +248,9 @@
         .card-info h3 {
             font-size: 1.3rem;
             margin-bottom: 0.8rem;
-            color: var(--brand-dark);
+            color: var(--title-color);
             font-weight: 800;
+            transition: color 0.4s ease;
         }
 
         .card-info p {
@@ -172,14 +258,16 @@
             font-size: 0.95rem;
             margin-bottom: 15px;
             text-align: justify;
+            transition: color 0.4s ease;
         }
 
         .precio {
             font-size: 1.7rem;
             font-weight: 900;
-            color: var(--brand-dark); 
+            color: var(--brand-light); /* El precio resalta en azul neón */
             margin: 15px 0;
             letter-spacing: -1px;
+            transition: color 0.4s ease;
         }
 
         .botones-card {
@@ -202,8 +290,9 @@
         }
 
         .btn-info:hover {
-            background-color: rgba(43, 91, 132, 0.1);
+            background-color: rgba(0, 210, 255, 0.1);
             transform: translateY(-2px);
+            box-shadow: var(--btn-shadow);
         }
 
         .btn-agregar {
@@ -216,11 +305,11 @@
             font-weight: 700;
             font-size: 0.95rem;
             transition: all 0.3s ease;
-            box-shadow: 0 4px 15px rgba(10, 36, 68, 0.3);
+            box-shadow: var(--btn-shadow);
         }
 
         .btn-agregar:hover {
-            box-shadow: 0 8px 25px rgba(10, 36, 68, 0.4);
+            box-shadow: var(--btn-shadow-hover);
             transform: translateY(-2px);
         }
 
@@ -233,16 +322,19 @@
             padding: 2rem;
             border-radius: 24px;
             box-shadow: var(--shadow-soft);
+            border: 1px solid var(--border-color);
+            transition: background-color 0.4s ease, border-color 0.4s ease;
         }
 
         .carrito-container h2 {
-            color: var(--brand-dark);
+            color: var(--title-color);
             margin-top: 0;
-            border-bottom: 2px solid #ecf0f1;
+            border-bottom: 2px solid var(--card-border);
             padding-bottom: 15px;
             text-align: center;
             font-size: 1.6rem; 
             font-weight: 800;
+            transition: border-color 0.4s ease, color 0.4s ease;
         }
 
         #lista-carrito {
@@ -256,14 +348,15 @@
             justify-content: space-between;
             align-items: center;
             padding: 12px 0; 
-            border-bottom: 1px solid #ecf0f1;
+            border-bottom: 1px solid var(--card-border);
             font-size: 1rem;
             color: var(--text-main);
             font-weight: 500;
+            transition: border-color 0.4s ease, color 0.4s ease;
         }
 
         .btn-eliminar {
-            background: #fff0f0;
+            background: var(--btn-eliminar-bg);
             color: #ff4d4d;
             border: none;
             border-radius: 8px;
@@ -284,7 +377,8 @@
             font-weight: 900;
             margin-top: 20px;
             text-align: right;
-            color: var(--brand-dark);
+            color: var(--brand-light);
+            transition: color 0.4s ease;
         }
 
         .btn-whatsapp {
@@ -304,12 +398,12 @@
             transition: all 0.3s ease;
             text-transform: uppercase;
             letter-spacing: 1px;
-            box-shadow: 0 10px 20px rgba(37, 211, 102, 0.3);
+            box-shadow: 0 8px 15px rgba(37, 211, 102, 0.3);
         }
 
         .btn-whatsapp:hover {
             transform: translateY(-3px);
-            box-shadow: 0 15px 25px rgba(37, 211, 102, 0.4);
+            box-shadow: 0 12px 25px rgba(37, 211, 102, 0.5);
         }
 
         /* MODALES */
@@ -317,10 +411,11 @@
             display: none; 
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
-            background-color: rgba(10, 36, 68, 0.5); 
+            background-color: var(--modal-overlay); 
             z-index: 1000; justify-content: center; align-items: center;
             padding: 1rem; box-sizing: border-box;
             backdrop-filter: blur(8px); 
+            transition: background-color 0.4s ease;
         }
 
         .modal-content {
@@ -331,117 +426,83 @@
             padding: 3rem;
             position: relative;
             text-align: left;
-            box-shadow: 0 25px 50px rgba(0,0,0,0.2);
+            box-shadow: 0 25px 50px rgba(0,0,0,0.5);
             display: flex; flex-direction: column; gap: 15px;
             max-height: 90vh; overflow-y: auto; 
+            transition: background-color 0.4s ease;
+            border: 1px solid var(--border-color);
         }
 
         /* Vistos buenos verdes */
         .modal-caracteristicas ul { list-style: none; padding-left: 0; margin-top: 15px; }
-        .modal-caracteristicas ul li { position: relative; padding-left: 32px; margin-bottom: 12px; color: var(--text-main); font-weight: 500; }
+        .modal-caracteristicas ul li { position: relative; padding-left: 32px; margin-bottom: 12px; color: var(--text-main); font-weight: 500; transition: color 0.4s ease; }
         .modal-caracteristicas ul li::before {
             content: '✔'; 
             color: var(--whatsapp); 
             position: absolute; left: 0; font-weight: 900; font-size: 1.1rem;
-            background: rgba(37, 211, 102, 0.1); 
+            background: rgba(37, 211, 102, 0.15); 
             width: 24px; height: 24px; display: flex; align-items: center; justify-content: center; border-radius: 50%;
         }
 
         .btn-cerrar-modal {
-            position: absolute; top: 20px; right: 25px; font-size: 1.5rem; font-weight: bold; color: #bdc3c7;
-            background: #f8f9fa; border: none; border-radius: 50%; width: 40px; height: 40px;
+            position: absolute; top: 20px; right: 25px; font-size: 1.5rem; font-weight: bold; color: var(--text-muted);
+            background: var(--bg-page); border: 1px solid var(--border-color); border-radius: 50%; width: 40px; height: 40px;
             cursor: pointer; transition: all 0.3s; display: flex; align-items: center; justify-content: center;
         }
 
-        .btn-cerrar-modal:hover { background: #ffecec; color: #ff4d4d; transform: rotate(90deg); }
+        .btn-cerrar-modal:hover { background: rgba(255, 77, 77, 0.2); color: #ff4d4d; border-color: #ff4d4d; transform: rotate(90deg); }
 
-        /* IMAGEN DEL MODAL MÁS PEQUEÑA */
+        /* IMAGEN DEL MODAL */
         .modal-img {
             width: 100%;
             max-height: 220px; 
             object-fit: contain;
             border-radius: 16px;
-            background-color: #f8f9fa;
+            background: var(--img-bg);
             padding: 20px; box-sizing: border-box; margin-bottom: 10px;
+            transition: background 0.4s ease;
         }
 
-        .modal-titulo { color: var(--brand-dark); margin: 0; font-size: 2rem; font-weight: 800; line-height: 1.2; }
-        .modal-caracteristicas { color: var(--text-muted); line-height: 1.7; text-align: justify; font-size: 1.05rem; }
-        .modal-footer { display: flex; justify-content: space-between; align-items: center; margin-top: 20px; border-top: 2px dashed #ecf0f1; padding-top: 25px; }
+        .modal-titulo { color: var(--title-color); margin: 0; font-size: 2rem; font-weight: 800; line-height: 1.2; transition: color 0.4s ease;}
+        .modal-caracteristicas { color: var(--text-muted); line-height: 1.7; text-align: justify; font-size: 1.05rem; transition: color 0.4s ease;}
+        .modal-footer { display: flex; justify-content: space-between; align-items: center; margin-top: 20px; border-top: 2px dashed var(--card-border); padding-top: 25px; transition: border-color 0.4s ease;}
 
         .datos-bancarios {
-            background: linear-gradient(135deg, #f8f9fa 0%, #eef2f5 100%);
+            background: var(--datos-bg);
             border-left: 5px solid var(--brand-light);
-            padding: 25px; border-radius: 16px; margin: 20px 0; text-align: justify; box-shadow: inset 0 2px 4px rgba(0,0,0,0.02);
+            padding: 25px; border-radius: 16px; margin: 20px 0; text-align: justify; box-shadow: inset 0 2px 4px rgba(0,0,0,0.1);
+            transition: background 0.4s ease;
         }
 
-        .datos-bancarios p { margin: 10px 0; color: var(--text-main); font-size: 1.1rem; display: flex; justify-content: space-between; border-bottom: 1px solid rgba(0,0,0,0.05); padding-bottom: 5px; }
-        .datos-bancarios strong { color: var(--brand-dark); }
+        .datos-bancarios p { margin: 10px 0; color: var(--text-main); font-size: 1.1rem; display: flex; justify-content: space-between; border-bottom: 1px solid var(--card-border); padding-bottom: 5px; transition: color 0.4s ease, border-color 0.4s ease;}
+        .datos-bancarios strong { color: var(--title-color); transition: color 0.4s ease;}
 
-        footer { background: var(--bg-card); color: var(--text-muted); text-align: center; padding: 3rem 1rem; margin-top: 5rem; font-weight: 500; box-shadow: 0 -4px 20px rgba(0,0,0,0.02); }
+        footer { background: var(--bg-card); color: var(--text-muted); text-align: center; padding: 3rem 1rem; margin-top: 5rem; font-weight: 500; box-shadow: 0 -4px 20px rgba(0,0,0,0.1); transition: background-color 0.4s ease, color 0.4s ease; border-top: 1px solid var(--border-color);}
 
         /* =========================================================
-           NUEVO: AJUSTES PARA CELULARES (DISEÑO RESPONSIVO AUTOMÁTICO)
+           AJUSTES PARA CELULARES (DISEÑO RESPONSIVO AUTOMÁTICO)
            ========================================================= */
         @media (max-width: 768px) {
-            body {
-                background-size: 80%; /* Hace la marca de agua más visible en pantallas angostas */
-            }
-
-            header {
-                padding: 1.5rem 1rem; /* Reduce el espacio superior en el celular */
-            }
-
-            header h1 {
-                font-size: 1.3rem; /* Título un poco más pequeño para que no se corte */
-                letter-spacing: 2px;
-            }
-
-            .grid {
-                /* Asegura que las tarjetas no se salgan de la pantalla en teléfonos pequeños */
-                grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-                gap: 20px; /* Reduce el espacio entre los productos */
-            }
-
-            .card-info {
-                padding: 1rem 1rem 0; /* Menos espacio en blanco dentro de la tarjeta */
-            }
-
-            .precio {
-                font-size: 1.4rem;
-            }
-
-            .modal-content {
-                padding: 1.5rem; /* Aprovecha mejor el espacio en ventanas emergentes */
-            }
-
-            .modal-titulo {
-                font-size: 1.5rem; /* Título del modal ajustado al celular */
-            }
-
-            .carrito-container {
-                padding: 1.5rem; /* Carrito más ajustado a los bordes */
-            }
-
-            .datos-bancarios p {
-                flex-direction: column; /* Apila los datos del banco para que no se monten uno sobre otro */
-                align-items: flex-start;
-                gap: 4px;
-                font-size: 0.95rem;
-            }
-
-            .total-container {
-                font-size: 1.3rem; 
-            }
-
-            .btn-whatsapp {
-                font-size: 1rem;
-                padding: 12px;
-            }
+            body { background-size: 80%; }
+            .theme-toggle { top: 15px; right: 15px; font-size: 1.2rem; padding: 6px 10px; }
+            header { padding: 1.5rem 1rem; }
+            header h1 { font-size: 1.3rem; letter-spacing: 2px; }
+            .grid { grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 20px; }
+            .card-info { padding: 1rem 1rem 0; }
+            .precio { font-size: 1.4rem; }
+            .modal-content { padding: 1.5rem; }
+            .modal-titulo { font-size: 1.5rem; }
+            .carrito-container { padding: 1.5rem; }
+            .datos-bancarios p { flex-direction: column; align-items: flex-start; gap: 4px; font-size: 0.95rem; }
+            .total-container { font-size: 1.3rem; }
+            .btn-whatsapp { font-size: 1rem; padding: 12px; }
         }
     </style>
 </head>
 <body>
+
+    <!-- Botón para alternar Noche/Día (Inicia con el Sol, ya que el fondo es oscuro por defecto) -->
+    <button id="theme-toggle" class="theme-toggle" onclick="toggleTheme()" title="Cambiar a Modo Claro">☀️</button>
 
     <header>
         <div class="logo-container">
@@ -567,12 +628,31 @@
     </div>
 
     <footer>
-        <p>&copy; 2026 <strong>SALAS VENTAS</strong> - Tu estilo en las mejores manos.</p>
+        <p>&copy; 2026 <strong>SALASVENTAS</strong> - Tu estilo en las mejores manos.</p>
     </footer>
 
     <!-- LÓGICA EN JAVASCRIPT -->
     <script>
         let carrito = [];
+
+        // Función corregida para el Modo Oscuro por defecto
+        function toggleTheme() {
+            const root = document.documentElement;
+            const toggleBtn = document.getElementById('theme-toggle');
+            const currentTheme = root.getAttribute('data-theme');
+            
+            // Si el tema actual es claro, lo quitamos para volver al oscuro por defecto
+            if (currentTheme === 'light') {
+                root.removeAttribute('data-theme'); 
+                toggleBtn.innerText = '☀️'; 
+                toggleBtn.title = 'Cambiar a Modo Claro';
+            } else {
+                // Si está en oscuro, aplicamos el atributo "light"
+                root.setAttribute('data-theme', 'light');
+                toggleBtn.innerText = '🌙'; 
+                toggleBtn.title = 'Cambiar a Modo Oscuro';
+            }
+        }
 
         function abrirModal(imagen, titulo, descripcion, precio) {
             document.getElementById('modal-img').src = imagen;
@@ -646,6 +726,11 @@
                 total += subtotal;
 
                 const li = document.createElement('li');
+                li.style.display = 'flex';
+                li.style.justifyContent = 'space-between';
+                li.style.padding = '8px 0';
+                li.style.borderBottom = '1px solid var(--card-border)';
+                
                 li.innerHTML = `
                     <span>${item.cantidad}x <strong>${item.nombre}</strong></span>
                     <span>$${subtotal.toLocaleString('es-CL')} <button class="btn-eliminar" onclick="eliminarDelCarrito(${index})">X</button></span>
