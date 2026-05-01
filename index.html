@@ -379,6 +379,66 @@
         .datos-bancarios strong { color: var(--brand-dark); }
 
         footer { background: var(--bg-card); color: var(--text-muted); text-align: center; padding: 3rem 1rem; margin-top: 5rem; font-weight: 500; box-shadow: 0 -4px 20px rgba(0,0,0,0.02); }
+
+        /* =========================================================
+           NUEVO: AJUSTES PARA CELULARES (DISEÑO RESPONSIVO AUTOMÁTICO)
+           ========================================================= */
+        @media (max-width: 768px) {
+            body {
+                background-size: 80%; /* Hace la marca de agua más visible en pantallas angostas */
+            }
+
+            header {
+                padding: 1.5rem 1rem; /* Reduce el espacio superior en el celular */
+            }
+
+            header h1 {
+                font-size: 1.3rem; /* Título un poco más pequeño para que no se corte */
+                letter-spacing: 2px;
+            }
+
+            .grid {
+                /* Asegura que las tarjetas no se salgan de la pantalla en teléfonos pequeños */
+                grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+                gap: 20px; /* Reduce el espacio entre los productos */
+            }
+
+            .card-info {
+                padding: 1rem 1rem 0; /* Menos espacio en blanco dentro de la tarjeta */
+            }
+
+            .precio {
+                font-size: 1.4rem;
+            }
+
+            .modal-content {
+                padding: 1.5rem; /* Aprovecha mejor el espacio en ventanas emergentes */
+            }
+
+            .modal-titulo {
+                font-size: 1.5rem; /* Título del modal ajustado al celular */
+            }
+
+            .carrito-container {
+                padding: 1.5rem; /* Carrito más ajustado a los bordes */
+            }
+
+            .datos-bancarios p {
+                flex-direction: column; /* Apila los datos del banco para que no se monten uno sobre otro */
+                align-items: flex-start;
+                gap: 4px;
+                font-size: 0.95rem;
+            }
+
+            .total-container {
+                font-size: 1.3rem; 
+            }
+
+            .btn-whatsapp {
+                font-size: 1rem;
+                padding: 12px;
+            }
+        }
     </style>
 </head>
 <body>
