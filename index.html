@@ -1,0 +1,704 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SALAS VENTAS | Cuidado Personal Premium</title>
+    <style>
+        /* PALETA VANGUARDISTA: "Soft Premium & Glass" */
+        :root {
+            --bg-page: #eef2f5;       
+            --bg-card: #ffffff;       
+            
+            --brand-dark: #0a2444;    
+            --brand-light: #2b5b84;   
+            --brand-gradient: linear-gradient(135deg, #0a2444 0%, #3a7bd5 100%);
+            
+            --text-main: #2c3e50;     
+            --text-muted: #7f8c8d;    
+            
+            --whatsapp: #25D366;
+            --whatsapp-gradient: linear-gradient(135deg, #25D366 0%, #128C7E 100%);
+            
+            --shadow-soft: 0 15px 35px rgba(10, 36, 68, 0.08);
+            --shadow-hover: 0 25px 50px rgba(10, 36, 68, 0.15);
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: var(--bg-page);
+            color: var(--text-main);
+            line-height: 1.6;
+        }
+
+        /* --- NUEVA ESTRUCTURA: Portada Central (Hero) sin quedarse pegada --- */
+        header {
+            background: linear-gradient(to bottom, #ffffff 0%, var(--bg-page) 100%);
+            text-align: center;
+            padding: 4rem 1rem 3rem; /* Mucho espacio para que se vea elegante */
+            position: relative; /* Normal: al bajar, se va hacia arriba */
+            border-bottom: 1px solid rgba(255, 255, 255, 0.8);
+            box-shadow: 0 10px 30px rgba(10, 36, 68, 0.03);
+        }
+
+        .logo-container {
+            position: relative;
+            display: inline-block;
+            margin-bottom: 1.5rem; /* Separación entre el logo y las letras */
+        }
+
+        /* Aura azulada para resaltar el logo */
+        .logo-container::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 140%;
+            height: 140%;
+            background: radial-gradient(circle, rgba(58,123,213,0.12) 0%, rgba(255,255,255,0) 70%);
+            transform: translate(-50%, -50%);
+            z-index: -1;
+            border-radius: 50%;
+        }
+
+        .logo-container img {
+            max-width: 450px; /* Logo grande y protagonista */
+            width: 100%;
+            height: auto;
+            filter: drop-shadow(0 10px 25px rgba(10, 36, 68, 0.15));
+            transition: transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        .logo-container img:hover {
+            transform: scale(1.04); /* Animación suave al pasar el mouse */
+        }
+
+        header h1 {
+            color: var(--brand-dark);
+            font-size: 1.8rem;
+            margin: 0;
+            text-transform: uppercase;
+            letter-spacing: 5px;
+            font-weight: 800;
+            opacity: 0.9;
+        }
+        /* --- FIN PORTADA CENTRAL --- */
+
+        .contenedor-principal {
+            max-width: 1200px;
+            margin: 1rem auto 3rem; /* Ajustado el margen superior porque el header ya tiene espacio */
+            padding: 0 1rem;
+            display: flex;
+            flex-direction: column;
+            gap: 4rem;
+        }
+
+        .productos h2 {
+            color: var(--brand-dark);
+            margin-top: 0;
+            text-align: center;
+            font-size: 2.2rem;
+            margin-bottom: 3rem;
+            font-weight: 800;
+            letter-spacing: -0.5px;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 40px;
+        }
+
+        .card {
+            background: var(--bg-card);
+            border-radius: 24px; 
+            overflow: hidden;
+            box-shadow: var(--shadow-soft);
+            text-align: center;
+            padding-bottom: 2rem;
+            border: 1px solid rgba(255,255,255,0.8);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); 
+        }
+
+        .card:hover {
+            transform: translateY(-12px);
+            box-shadow: var(--shadow-hover);
+        }
+
+        .img-container {
+            width: 100%;
+            height: 280px;
+            overflow: hidden;
+            background: radial-gradient(circle, #ffffff 0%, #f8f9fa 100%);
+            padding: 20px;
+            box-sizing: border-box;
+        }
+
+        .producto-img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            transition: transform 0.6s ease;
+            cursor: pointer;
+        }
+
+        .producto-img:hover {
+            transform: scale(1.12) rotate(2deg); 
+        }
+
+        .card-info {
+            padding: 1.5rem 2rem 0;
+        }
+        
+        .card-info h3 {
+            font-size: 1.3rem;
+            margin-bottom: 0.8rem;
+            color: var(--brand-dark);
+            font-weight: 800;
+        }
+
+        .card-info p {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+            margin-bottom: 15px;
+            text-align: justify;
+        }
+
+        .precio {
+            font-size: 1.7rem;
+            font-weight: 900;
+            color: var(--brand-dark); 
+            margin: 15px 0;
+            letter-spacing: -1px;
+        }
+
+        .botones-card {
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+            margin-top: 20px;
+        }
+
+        .btn-info {
+            background-color: transparent;
+            color: var(--brand-light);
+            border: 2px solid var(--brand-light);
+            padding: 12px 20px;
+            border-radius: 12px;
+            cursor: pointer;
+            font-weight: 700;
+            font-size: 0.95rem;
+            transition: all 0.3s ease;
+        }
+
+        .btn-info:hover {
+            background-color: rgba(43, 91, 132, 0.1);
+            transform: translateY(-2px);
+        }
+
+        .btn-agregar {
+            background: var(--brand-gradient);
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 12px;
+            cursor: pointer;
+            font-weight: 700;
+            font-size: 0.95rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(10, 36, 68, 0.3);
+        }
+
+        .btn-agregar:hover {
+            box-shadow: 0 8px 25px rgba(10, 36, 68, 0.4);
+            transform: translateY(-2px);
+        }
+
+        .modal-overlay {
+            display: none; 
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(10, 36, 68, 0.5); 
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+            padding: 1rem;
+            box-sizing: border-box;
+            backdrop-filter: blur(8px); 
+        }
+
+        .modal-content {
+            background: var(--bg-card);
+            border-radius: 24px;
+            max-width: 650px;
+            width: 100%;
+            padding: 3rem;
+            position: relative;
+            text-align: left;
+            box-shadow: 0 25px 50px rgba(0,0,0,0.2);
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            max-height: 90vh; 
+            overflow-y: auto; 
+        }
+
+        .btn-cerrar-modal {
+            position: absolute;
+            top: 20px;
+            right: 25px;
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #bdc3c7;
+            background: #f8f9fa;
+            border: none;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .btn-cerrar-modal:hover {
+            background: #ffecec;
+            color: #ff4d4d;
+            transform: rotate(90deg);
+        }
+
+        .modal-img {
+            width: 100%;
+            max-height: 300px;
+            object-fit: contain;
+            border-radius: 16px;
+            background-color: #f8f9fa;
+            padding: 20px;
+            box-sizing: border-box;
+            margin-bottom: 10px;
+        }
+
+        .modal-titulo {
+            color: var(--brand-dark);
+            margin: 0;
+            font-size: 2rem;
+            font-weight: 800;
+            line-height: 1.2;
+        }
+
+        .modal-caracteristicas {
+            color: var(--text-muted);
+            line-height: 1.7;
+            text-align: justify;
+            font-size: 1.05rem;
+        }
+
+        .modal-caracteristicas ul {
+            list-style: none; 
+            padding-left: 0;
+            margin-top: 15px;
+        }
+
+        .modal-caracteristicas ul li {
+            position: relative;
+            padding-left: 32px; 
+            margin-bottom: 12px;
+            color: var(--text-main);
+            font-weight: 500;
+        }
+
+        .modal-caracteristicas ul li::before {
+            content: '✔'; 
+            color: var(--brand-light); 
+            position: absolute;
+            left: 0;
+            font-weight: 900;
+            font-size: 1.1rem;
+            background: rgba(43, 91, 132, 0.1);
+            width: 24px;
+            height: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+        }
+
+        .modal-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 20px;
+            border-top: 2px dashed #ecf0f1;
+            padding-top: 25px;
+        }
+
+        .datos-bancarios {
+            background: linear-gradient(135deg, #f8f9fa 0%, #eef2f5 100%);
+            border-left: 5px solid var(--brand-light);
+            padding: 25px;
+            border-radius: 16px;
+            margin: 20px 0;
+            text-align: justify;
+            box-shadow: inset 0 2px 4px rgba(0,0,0,0.02);
+        }
+
+        .datos-bancarios p {
+            margin: 10px 0;
+            color: var(--text-main);
+            font-size: 1.1rem;
+            display: flex;
+            justify-content: space-between;
+            border-bottom: 1px solid rgba(0,0,0,0.05);
+            padding-bottom: 5px;
+        }
+
+        .datos-bancarios strong {
+            color: var(--brand-dark);
+        }
+
+        .carrito-container {
+            width: 100%;
+            max-width: 650px;
+            margin: 0 auto;
+            background: var(--bg-card);
+            padding: 3rem;
+            border-radius: 24px;
+            box-shadow: var(--shadow-soft);
+        }
+
+        .carrito-container h2 {
+            color: var(--brand-dark);
+            margin-top: 0;
+            border-bottom: 2px solid #ecf0f1;
+            padding-bottom: 20px;
+            text-align: center;
+            font-size: 2rem;
+            font-weight: 800;
+        }
+
+        #lista-carrito {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        #lista-carrito li {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 18px 0;
+            border-bottom: 1px solid #ecf0f1;
+            font-size: 1.1rem;
+            color: var(--text-main);
+            font-weight: 500;
+        }
+
+        .btn-eliminar {
+            background: #fff0f0;
+            color: #ff4d4d;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            padding: 6px 12px;
+            font-weight: bold;
+            transition: all 0.2s;
+        }
+
+        .btn-eliminar:hover {
+            background: #ff4d4d;
+            color: white;
+            transform: scale(1.05);
+        }
+
+        .total-container {
+            font-size: 1.8rem;
+            font-weight: 900;
+            margin-top: 30px;
+            text-align: right;
+            color: var(--brand-dark);
+        }
+
+        .btn-whatsapp {
+            display: block;
+            width: 100%;
+            background: var(--whatsapp-gradient);
+            color: white;
+            text-align: center;
+            padding: 20px;
+            text-decoration: none;
+            border-radius: 16px;
+            font-weight: 800;
+            font-size: 1.3rem;
+            margin-top: 35px;
+            cursor: pointer;
+            border: none;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            box-shadow: 0 10px 20px rgba(37, 211, 102, 0.3);
+        }
+
+        .btn-whatsapp:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 25px rgba(37, 211, 102, 0.4);
+        }
+
+        footer {
+            background: var(--bg-card);
+            color: var(--text-muted);
+            text-align: center;
+            padding: 3rem 1rem;
+            margin-top: 5rem;
+            font-weight: 500;
+            box-shadow: 0 -4px 20px rgba(0,0,0,0.02);
+        }
+    </style>
+</head>
+<body>
+
+    <!-- PORTADA: Logo al centro, gigante, sin efecto pegajoso -->
+    <header>
+        <div class="logo-container">
+            <img src="logo.png" alt="Logo SALAS VENTAS">
+        </div>
+<h1>Cuidado Personal</h1>
+<p>Productos diseñados para tu estilo y bienestar diario.</p>
+    </header>
+
+    <div class="contenedor-principal">
+        
+        <div class="productos">
+            <h2>Nuestros Productos</h2>
+            <div class="grid">
+                
+                <!-- PRODUCTO 1 -->
+                <div class="card">
+                    <div class="img-container">
+                        <img src="cera negra indian.png" alt="Cera Gel Indian Collection" class="producto-img">
+                    </div>
+                    <div class="card-info">
+                        <h3>Cera Capilar Indian Collection negra 200 ml</h3>
+                        <p>Fijación fuerte para barba y cabello con aroma a cacao.</p>
+                        <div class="precio">$3.990</div>
+                        <div class="botones-card">
+                            <button class="btn-info" onclick="abrirModal('cera negra indian.png', 'Cera Gel Indian Collection para Barba y Cabello', '<p>Consigue un estilo definido y duradero con la Cera Gel Indian Collection, una innovadora combinación entre gel y cera que ofrece fijación fuerte y un acabado impecable durante todo el día. Ideal para barba y cabello, incluso en los más rebeldes.</p><p><strong>Beneficios:</strong></p><ul><li>Fijación fuerte de larga duración</li><li>Fórmula a base de agua (fácil de enjuagar)</li><li>Controla cabello rizado, grueso o difícil</li><li>Aporta definición, estructura y brillo natural</li><li>Funciona en todo tipo y largo de cabello</li><li>Fragancia de cacao para un aroma agradable</li></ul><p>Logra un look limpio, definido y con estilo en todo momento.</p>', 3990)">+ Info</button>
+                            <button class="btn-agregar" onclick="agregarAlCarrito('Cera Gel Indian Collection (Negra)', 3990)">Añadir</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- PRODUCTO 2 -->
+                <div class="card">
+                    <div class="img-container">
+                        <img src="cera roja indian.png" alt="Cera Capilar Indian Collection" class="producto-img">
+                    </div>
+                    <div class="card-info">
+                        <h3>Cera Capilar Indian Collection roja 200 ml</h3>
+                        <p>Peinado definido y duradero con ultrafijación, Fragancia agradable frutal dulce.</p>
+                        <div class="precio">$3.990</div>
+                        <div class="botones-card">
+                            <button class="btn-info" onclick="abrirModal('cera roja indian.png', 'Cera Capilar Indian Collection 200 ml', '<p>Logra un peinado definido y duradero con la Cera Capilar Indian Collection. Su fórmula de ultrafijación mantiene tu estilo durante todo el día, mientras su textura en gel permite una aplicación fácil en todo tipo de cabello.</p><p><strong>Beneficios:</strong></p><ul><li>Ultrafijación de larga duración</li><li>Apta para todo tipo de cabello</li><li>Fragancia agradable</li><li>Hipoalergénica y libre de crueldad</li><li>Fácil de aplicar y remover</li></ul><p>Define tu estilo con confianza y calidad profesional.</p>', 3990)">+ Info</button>
+                            <button class="btn-agregar" onclick="agregarAlCarrito('Cera Capilar Indian Collection (Roja)', 3990)">Añadir</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- PRODUCTO 3 -->
+                <div class="card">
+                    <div class="img-container">
+                        <img src="espuma indian azul.png" alt="Espuma de Afeitar" class="producto-img">
+                    </div>
+                    <div class="card-info">
+                        <h3>Espuma de Afeitar Indian Collection</h3>
+                        <p>Afeitado superior, suave y sin irritaciones.</p>
+                        <div class="precio">$3.500</div>
+                        <div class="botones-card">
+                            <button class="btn-info" onclick="abrirModal('espuma indian azul.png', 'Espuma de Afeitar Indian Collection', '<p>Descubre una experiencia de afeitado superior con la Espuma de Afeitar Indian Collection, diseñada para brindar un afeitado suave, preciso y cómodo. Su fórmula especial cuida y protege la piel, incluso las más sensibles, mientras su textura espesa y deslizante facilita el paso de la navaja para un acabado impecable.</p><p><strong>Beneficios:</strong></p><ul><li>Ideal para rostro y cuerpo</li><li>Apta para pieles sensibles</li><li>Reduce la irritación y protege contra microcortes</li><li>Sensación refrescante y confortable</li><li>Textura espesa para un mejor deslizamiento</li></ul><p>Vive un afeitado más seguro, fresco y confortable con Indian Collection.</p>', 3500)">+ Info</button>
+                            <button class="btn-agregar" onclick="agregarAlCarrito('Espuma de Afeitar Indian Collection', 3500)">Añadir</button>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- Carrito de Compras -->
+        <div class="carrito-container">
+            <h2>Tu Pedido</h2>
+            <ul id="lista-carrito">
+            </ul>
+            <div class="total-container">
+                Total: $<span id="total-precio">0</span>
+            </div>
+            <button class="btn-whatsapp" onclick="abrirCheckout()">Siguiente Paso 🛒</button>
+        </div>
+
+    </div>
+
+    <!-- ESTRUCTURA DE LA VENTANA FLOTANTE (MODAL PRODUCTO) -->
+    <div class="modal-overlay" id="modalProducto" onclick="cerrarModalFuera(event)">
+        <div class="modal-content">
+            <button class="btn-cerrar-modal" onclick="cerrarModal('modalProducto')">✖</button>
+            <img src="" alt="Producto" id="modal-img" class="modal-img">
+            <h2 id="modal-titulo" class="modal-titulo">Nombre del Producto</h2>
+            <div id="modal-desc" class="modal-caracteristicas">
+                <!-- Aquí aparecerán las características -->
+            </div>
+            <div class="modal-footer">
+                <div class="precio" id="modal-precio">$0</div>
+                <button class="btn-agregar" id="btn-modal-agregar" onclick="">Añadir al Carrito</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL DE CHECKOUT (DATOS BANCARIOS) -->
+    <div class="modal-overlay" id="modalCheckout" onclick="cerrarModalFueraCheckout(event)">
+        <div class="modal-content">
+            <button class="btn-cerrar-modal" onclick="cerrarModal('modalCheckout')">✖</button>
+            <h2 class="modal-titulo">Finaliza tu compra</h2>
+            
+            <p style="color: var(--text-muted); text-align: justify; font-size: 1.1rem; margin-bottom: 25px;">Estás a un paso de obtener tus productos premium. Para procesar tu pedido, realiza la transferencia por el total a la siguiente cuenta:</p>
+            
+            <div class="datos-bancarios">
+                <p><span>Banco:</span> <strong>Banco Estado</strong></p>
+                <p><span>Tipo de Cuenta:</span> <strong>Cuenta PRO/Cuenta Vista</strong></p>
+                <p><span>Número:</span> <strong>52770906954</strong></p>
+                <p><span>Nombre:</span> <strong>FRANCISCO SALAS MUÑOZ</strong></p>
+                <p><span>RUT:</span> <strong>18563173-7</strong></p>
+                <p><span>Correo:</span> <strong>salaspancho16@gmail.com</strong></p>
+            </div>
+
+            <div class="total-container" style="text-align: center; font-size: 2.2rem; margin: 20px 0;">
+                A transferir: $<span id="total-checkout">0</span>
+            </div>
+
+            <p style="text-align: center; font-size: 1rem; color: var(--text-muted); margin-bottom: 0;">
+                Una vez realizada la transferencia, presiona el botón de abajo para enviarnos tu pedido y adjuntar el comprobante en WhatsApp.
+            </p>
+
+            <button class="btn-whatsapp" onclick="enviarWhatsApp()">Enviar Pedido y Comprobante</button>
+        </div>
+    </div>
+
+    <footer>
+        <p>&copy; 2026 <strong>SALAS VENTAS</strong> - Tu estilo en las mejores manos.</p>
+    </footer>
+
+    <!-- LÓGICA EN JAVASCRIPT -->
+    <script>
+        let carrito = [];
+
+        function abrirModal(imagen, titulo, descripcion, precio) {
+            document.getElementById('modal-img').src = imagen;
+            document.getElementById('modal-titulo').innerText = titulo;
+            document.getElementById('modal-desc').innerHTML = descripcion;
+            document.getElementById('modal-precio').innerText = '$' + precio.toLocaleString('es-CL');
+            
+            const btnModal = document.getElementById('btn-modal-agregar');
+            btnModal.onclick = function() {
+                agregarAlCarrito(titulo, precio);
+                cerrarModal('modalProducto');
+            };
+
+            document.getElementById('modalProducto').style.display = 'flex';
+        }
+
+        function cerrarModal(id = 'modalProducto') {
+            document.getElementById(id).style.display = 'none';
+        }
+
+        function cerrarModalFuera(event) {
+            const modal = document.getElementById('modalProducto');
+            if (event.target === modal) {
+                cerrarModal('modalProducto');
+            }
+        }
+
+        function cerrarModalFueraCheckout(event) {
+            const modal = document.getElementById('modalCheckout');
+            if (event.target === modal) {
+                cerrarModal('modalCheckout');
+            }
+        }
+
+        function abrirCheckout() {
+            if (carrito.length === 0) {
+                alert("Tu carrito está vacío. ¡Agrega algunos productos primero!");
+                return;
+            }
+            let total = 0;
+            carrito.forEach(item => total += (item.precio * item.cantidad));
+            document.getElementById('total-checkout').innerText = total.toLocaleString('es-CL');
+            document.getElementById('modalCheckout').style.display = 'flex';
+        }
+
+        function agregarAlCarrito(nombreProducto, precioProducto) {
+            const productoExistente = carrito.find(item => item.nombre === nombreProducto);
+            
+            if (productoExistente) {
+                productoExistente.cantidad += 1; 
+            } else {
+                carrito.push({ nombre: nombreProducto, precio: precioProducto, cantidad: 1 });
+            }
+            actualizarInterfaz();
+        }
+
+        function eliminarDelCarrito(index) {
+            carrito.splice(index, 1);
+            actualizarInterfaz();
+        }
+
+        function actualizarInterfaz() {
+            const lista = document.getElementById('lista-carrito');
+            const totalTexto = document.getElementById('total-precio');
+            
+            lista.innerHTML = ''; 
+            let total = 0; 
+
+            carrito.forEach((item, index) => {
+                const subtotal = item.precio * item.cantidad;
+                total += subtotal;
+
+                const li = document.createElement('li');
+                li.innerHTML = `
+                    <span>${item.cantidad}x <strong>${item.nombre}</strong></span>
+                    <span>$${subtotal.toLocaleString('es-CL')} <button class="btn-eliminar" onclick="eliminarDelCarrito(${index})">X</button></span>
+                `;
+                lista.appendChild(li);
+            });
+
+            totalTexto.innerText = total.toLocaleString('es-CL');
+        }
+
+        function enviarWhatsApp() {
+            if (carrito.length === 0) {
+                alert("Tu carrito está vacío.");
+                return;
+            }
+
+            const numeroTelefono = "56946968144"; 
+            let mensaje = "Hola SALASVENTAS, ya realicé la transferencia. Aquí está el detalle de mi pedido:%0A%0A";
+            let total = 0;
+
+            carrito.forEach(item => {
+                const subtotal = item.precio * item.cantidad;
+                total += subtotal;
+                mensaje += `- ${item.cantidad}x ${item.nombre} ($${subtotal.toLocaleString('es-CL')})%0A`;
+            });
+
+            mensaje += `%0A*Total pagado: $${total.toLocaleString('es-CL')}*%0A%0AAdjunto el comprobante de pago.`;
+
+            const url = `https://wa.me/${numeroTelefono}?text=${mensaje}`;
+            window.open(url, '_blank');
+            cerrarModal('modalCheckout');
+        }
+    </script>
+
+</body>
+</html>
